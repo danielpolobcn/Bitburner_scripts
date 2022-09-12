@@ -1,0 +1,110 @@
+// TARGET SERVER MUST BE ENTERED AS AN ARGUMENT, i.e. "run cracker.script n00dles"
+var server = args[0];
+
+// This script assumes you are creating or buying port-opening programs from cheapest to most expensive:
+// brutessh.exe -> ftpcrack.exe -> relaysmtp.exe -> httpworm.exe -> sqlinject.exe
+
+if (getServerNumPortsRequired(server) == 0) {
+	nuke(server);
+	tprint("Successful crack");
+}
+
+if (getServerNumPortsRequired(server) == 1) {
+	if (fileExists("bruteSSH.exe")) {
+		brutessh(server);
+		nuke(server);
+		tprint("Successful crack");
+	} else {
+		tprint("ERROR - Missing program: brutessh.exe");
+	}
+}
+
+if (getServerNumPortsRequired(server) == 2) {
+	if (fileExists("bruteSSH.exe")) {
+		brutessh(server);
+	} else {
+		tprint("ERROR - Missing program: brutessh.exe");
+	}
+	if (fileExists("ftpcrack.exe")) {
+		ftpcrack(server);
+		nuke(server);
+		tprint("Successful crack");
+	} else {
+		tprint("ERROR - Missing program: ftpcrack.exe");
+	}
+}
+
+if (getServerNumPortsRequired(server) == 3) {
+	if (fileExists("bruteSSH.exe")) {
+		brutessh(server);
+	} else {
+		tprint("ERROR - Missing program: brutessh.exe");
+	}
+	if (fileExists("ftpcrack.exe")) {
+		ftpcrack(server);
+	} else {
+		tprint("ERROR - Missing program: ftpcrack.exe");
+	}
+	if (fileExists("relaysmtp.exe")) {
+		relaysmtp(server);
+		nuke(server);
+		tprint("Successful crack");
+	} else {
+		tprint("ERROR - Missing program: relaysmtp.exe");
+	}
+}
+
+if (getServerNumPortsRequired(server) == 4) {
+	if (fileExists("bruteSSH.exe")) {
+		brutessh(server);
+	} else {
+		tprint("ERROR - Missing program: brutessh.exe");
+	}
+	if (fileExists("ftpcrack.exe")) {
+		ftpcrack(server);
+	} else {
+		tprint("ERROR - Missing program: ftpcrack.exe");
+	}
+	if (fileExists("relaysmtp.exe")) {
+		relaysmtp(server);
+	} else {
+		tprint("ERROR - Missing program: relaysmtp.exe");
+	}
+	if (fileExists("httpworm.exe")) {
+		httpworm(server);
+		nuke(server);
+		tprint("Successful crack");
+	} else {
+		tprint("ERROR - Missing program: httpworm.exe.exe");
+	}
+}
+
+if (getServerNumPortsRequired(server) == 5) {
+	if (fileExists("bruteSSH.exe")) {
+		brutessh(server);
+	} else {
+		tprint("ERROR - Missing program: brutessh.exe");
+	}
+	if (fileExists("ftpcrack.exe")) {
+		ftpcrack(server);
+	} else {
+		tprint("ERROR - Missing program: ftpcrack.exe");
+	}
+	if (fileExists("relaysmtp.exe")) {
+		relaysmtp(server);
+	} else {
+		tprint("ERROR - Missing program: relaysmtp.exe");
+	}
+	if (fileExists("httpworm.exe")) {
+		httpworm(server);
+	} else {
+		tprint("ERROR - Missing program: httpworm.exe.exe");
+	}
+	if (fileExists("sqlinject.exe")) {
+		sqlinject(server);
+		nuke(server);
+		tprint("Successful crack");
+	} else {
+		tprint("ERROR - Missing program: sqlinject.exe");
+	}
+}
