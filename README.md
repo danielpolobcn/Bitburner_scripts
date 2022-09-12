@@ -1,7 +1,7 @@
 # Bitburner_scripts
 ## Scripts for Bitburner v2
 This repository contains several scripts I have developed for use with Bitburner v2 during my beginner days. <b>Bitburner is a funny hacking game, very useful to learn Javascript basics</b>. In order to advance through the game, players are compelled to try to automate processes and constantly improve their scripts. You can get it for free from the Github repository (https://danielyxie.github.io/bitburner) or from Steam too.<br>
-All the scripts below are written for N1 and must be saved as "name.script" in your home server.
+All the scripts below are written for NS1 and must be saved as "name.script" in your home server.
 
 ### Inspector
 This script returns information about money, security, RAM and difficulty to crack for a target server. This is convenient when you are manually looking for the proper next candidate to hack within your current hacking ability. The script relies on an argument to indicate the target server to be inspected, i.e. "run inspector.script n00dles". It is suggested to set an alias for a more convenient use (i.e. alias inspect="run inspector.script").
