@@ -1,6 +1,6 @@
 # Bitburner_scripts
 ## Scripts for Bitburner v2
-This repository contains several scripts I developed for Bitburner v2 during my beginner days. <b>Bitburner is a funny hacking game, very useful to learn Javascript basics</b>. In order to advance through the game, players are compelled to try to automate processes and constantly improve their scripts. You can get it for free from the Github repository (https://danielyxie.github.io/bitburner) or from Steam too.<br>
+This repository contains several scripts I developed for Bitburner v2 during my beginner days. <b>Bitburner is a funny hacking game, very useful for learning Javascript basics</b>. In order to advance through the game, players are compelled to try to automate processes and constantly improve their scripts. You can get it for free from the Github repository (https://danielyxie.github.io/bitburner) or from Steam too.<br>
 All the scripts below are written for NS1 and must be saved as "name.script" in your home server.
 
 ### Inspector
