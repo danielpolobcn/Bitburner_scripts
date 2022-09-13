@@ -8,3 +8,6 @@ This script returns information about money, security, RAM and difficulty to cra
 
 ### Cracker
 This script attempts to open as many ports as necessary and then nuke any target server, on the assumption that you are creating or buying port-opening programs from cheapest to most expensive, this is: brutessh.exe -> ftpcrack.exe -> relaysmtp.exe -> httpworm.exe -> sqlinject.exe . If you miss any of the required programs for your target server, you will get an error message indicating the missing file. It is suggested to set an alias for a more convenient use (i.e. alias crack="run cracker.script").
+
+### Basic hack
+This is the most simple script for hacking servers indefinitely. The script will check before any hacking attempt if the requisites for maximum security and minimuum money are met, and run "weaken" and/or "grow" before further hacks when necessary.
