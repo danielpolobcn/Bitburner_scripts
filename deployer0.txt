@@ -18,7 +18,6 @@ tprint ("Target server = " , target);
 // Crack and self-hack the target server.
 var ramPerThread = getScriptRam("basic-hack.script");
 scp("basic-hack.script" , target);
-brutessh(target);
 nuke(target);
 var ramAvailable = getServerMaxRam(target) - getServerUsedRam(target);
 var threads = Math.floor(ramAvailable / ramPerThread);
@@ -28,7 +27,7 @@ exec("basic-hack.script" , target , threads, target);
 for(var i = 0; i < servers.length; i++){ 
     if (servers[i] === target){ 
         servers.splice(i, 1);
-		i--; 
+	i--; 
     }
 }
 
