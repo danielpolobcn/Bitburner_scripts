@@ -6,14 +6,14 @@ var server = args[0];
 
 if (getServerNumPortsRequired(server) == 0) {
 	nuke(server);
-	tprint("Successful crack");
+	tprint("Successful crack " , server);
 }
 
 if (getServerNumPortsRequired(server) == 1) {
 	if (fileExists("bruteSSH.exe")) {
 		brutessh(server);
 		nuke(server);
-		tprint("Successful crack");
+		tprint("Successful crack " , server);
 	} else {
 		tprint("ERROR - Missing program: brutessh.exe");
 	}
@@ -28,7 +28,7 @@ if (getServerNumPortsRequired(server) == 2) {
 	if (fileExists("ftpcrack.exe")) {
 		ftpcrack(server);
 		nuke(server);
-		tprint("Successful crack");
+		tprint("Successful crack " , server);
 	} else {
 		tprint("ERROR - Missing program: ftpcrack.exe");
 	}
@@ -48,7 +48,7 @@ if (getServerNumPortsRequired(server) == 3) {
 	if (fileExists("relaysmtp.exe")) {
 		relaysmtp(server);
 		nuke(server);
-		tprint("Successful crack");
+		tprint("Successful crack " , server);
 	} else {
 		tprint("ERROR - Missing program: relaysmtp.exe");
 	}
@@ -73,7 +73,7 @@ if (getServerNumPortsRequired(server) == 4) {
 	if (fileExists("httpworm.exe")) {
 		httpworm(server);
 		nuke(server);
-		tprint("Successful crack");
+		tprint("Successful crack " , server);
 	} else {
 		tprint("ERROR - Missing program: httpworm.exe.exe");
 	}
@@ -103,7 +103,7 @@ if (getServerNumPortsRequired(server) == 5) {
 	if (fileExists("sqlinject.exe")) {
 		sqlinject(server);
 		nuke(server);
-		tprint("Successful crack");
+		tprint("Successful crack " , server);
 	} else {
 		tprint("ERROR - Missing program: sqlinject.exe");
 	}
