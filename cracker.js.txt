@@ -1,0 +1,115 @@
+/** @param {NS} ns */
+export async function main(ns) {
+
+// TARGET SERVER MUST BE ENTERED AS AN ARGUMENT, i.e. "run cracker.js n00dles"
+const server = ns.args[0];
+
+// This script assumes you are creating or buying port-opening programs from cheapest to most expensive:
+// brutessh.exe -> ftpcrack.exe -> relaysmtp.exe -> httpworm.exe -> sqlinject.exe
+
+if (ns.getServerNumPortsRequired(server) == 0) {
+	ns.nuke(server);
+	ns.tprint("Successful crack " , server);
+}
+
+if (ns.getServerNumPortsRequired(server) == 1) {
+	if (ns.fileExists("bruteSSH.exe")) {
+		ns.brutessh(server);
+		ns.nuke(server);
+		ns.tprint("Successful crack " , server);
+	} else {
+		ns.tprint("ERROR - Missing program: brutessh.exe");
+	}
+}
+
+if (ns.getServerNumPortsRequired(server) == 2) {
+	if (ns.fileExists("bruteSSH.exe")) {
+		ns.brutessh(server);
+	} else {
+		ns.tprint("ERROR - Missing program: brutessh.exe");
+	}
+	if (ns.fileExists("ftpcrack.exe")) {
+		ns.ftpcrack(server);
+		ns.nuke(server);
+		ns.tprint("Successful crack " , server);
+	} else {
+		ns.tprint("ERROR - Missing program: ftpcrack.exe");
+	}
+}
+
+if (ns.getServerNumPortsRequired(server) == 3) {
+	if (ns.fileExists("bruteSSH.exe")) {
+		ns.brutessh(server);
+	} else {
+		ns.tprint("ERROR - Missing program: brutessh.exe");
+	}
+	if (ns.fileExists("ftpcrack.exe")) {
+		ns.ftpcrack(server);
+	} else {
+		ns.tprint("ERROR - Missing program: ftpcrack.exe");
+	}
+	if (ns.fileExists("relaysmtp.exe")) {
+		ns.relaysmtp(server);
+		ns.nuke(server);
+		ns.tprint("Successful crack " , server);
+	} else {
+		ns.tprint("ERROR - Missing program: relaysmtp.exe");
+	}
+}
+
+if (ns.getServerNumPortsRequired(server) == 4) {
+	if (ns.fileExists("bruteSSH.exe")) {
+		ns.brutessh(server);
+	} else {
+		ns.tprint("ERROR - Missing program: brutessh.exe");
+	}
+	if (ns.fileExists("ftpcrack.exe")) {
+		ns.ftpcrack(server);
+	} else {
+		ns.tprint("ERROR - Missing program: ftpcrack.exe");
+	}
+	if (ns.fileExists("relaysmtp.exe")) {
+		ns.relaysmtp(server);
+	} else {
+		ns.tprint("ERROR - Missing program: relaysmtp.exe");
+	}
+	if (ns.fileExists("httpworm.exe")) {
+		ns.httpworm(server);
+		ns.nuke(server);
+		ns.tprint("Successful crack " , server);
+	} else {
+		ns.tprint("ERROR - Missing program: httpworm.exe.exe");
+	}
+}
+
+if (ns.getServerNumPortsRequired(server) == 5) {
+	if (ns.fileExists("bruteSSH.exe")) {
+		ns.brutessh(server);
+	} else {
+		ns.tprint("ERROR - Missing program: brutessh.exe");
+	}
+	if (ns.fileExists("ftpcrack.exe")) {
+		ns.ftpcrack(server);
+	} else {
+		ns.tprint("ERROR - Missing program: ftpcrack.exe");
+	}
+	if (ns.fileExists("relaysmtp.exe")) {
+		ns.relaysmtp(server);
+	} else {
+		ns.tprint("ERROR - Missing program: relaysmtp.exe");
+	}
+	if (ns.fileExists("httpworm.exe")) {
+		ns.httpworm(server);
+	} else {
+		ns.tprint("ERROR - Missing program: httpworm.exe.exe");
+	}
+	if (ns.fileExists("sqlinject.exe")) {
+		ns.sqlinject(server);
+		ns.nuke(server);
+		ns.tprint("Successful crack " , server);
+	} else {
+		ns.tprint("ERROR - Missing program: sqlinject.exe");
+	}
+}
+
+}

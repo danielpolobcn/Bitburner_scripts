@@ -1,0 +1,23 @@
+/** @param {NS} ns */
+export async function main(ns) {
+
+// TARGET SERVER MUST BE ENTERED AS AN ARGUMENT, i.e. "run inspector.js n00dles"
+const target = ns.args[0];
+
+const MaxMoney = ns.getServerMaxMoney(target);
+const CurrentMoney = ns.getServerMoneyAvailable(target);
+const MinSecurity = ns.getServerMinSecurityLevel(target);
+const CurrentSecurity = Math.floor(ns.getServerSecurityLevel(target));
+const MaxRam = ns.getServerMaxRam(target);
+const Ports = ns.getServerNumPortsRequired(target);
+const Level = ns.getServerRequiredHackingLevel(target);
+
+ns.tprint("Max Money = ", MaxMoney / 1000000, " M");
+ns.tprint("Current Money = ", CurrentMoney / 1000000, " M");
+ns.tprint("Min Security = ", MinSecurity);
+ns.tprint("Current Security = ", CurrentSecurity);
+ns.tprint("Server RAM = ", MaxRam, " Gb");
+ns.tprint("Ports required to nuke = ", Ports);
+ns.tprint("Hacking level required = ", Level);
+
+}
