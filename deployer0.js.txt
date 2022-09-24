@@ -1,0 +1,62 @@
+/** @param {NS} ns */
+export async function main(ns) {
+
+// List all the servers with 0 ports to open connected to "home" and then those connected to the first batch of servers found.
+let serversTotal = [];
+const servers = ns.scan("home");
+for (let i in servers) {
+	if (ns.getServerNumPortsRequired(servers[i]) == 0){
+		serversTotal.push(servers[i]);
+	}
+	let serversfound = ns.scan(servers[i]);
+	if (serversfound.length >= 2) {
+		serversfound.shift();
+		for (let j in serversfound) {
+			serversfound[j].toString();
+			if (ns.getServerNumPortsRequired(serversfound[j]) == 0){
+				serversTotal.push(serversfound[j]);
+			}
+		}
+	}
+}
+ns.tprint ("Total servers with 0 ports = " , serversTotal.length);
+
+// Choose the server with the most money as target.
+let serversMoney = [];
+let serversRich = [];
+for (let l in serversTotal) {
+	let MaxMoney = ns.getServerMaxMoney(serversTotal[l]);
+	serversMoney.push(MaxMoney);
+	serversRich.push(serversTotal[l]);
+}
+const Max = Math.max.apply(null, serversMoney);
+const position = serversMoney.indexOf(Max);
+const target = serversRich[position];
+ns.tprint ("Target server = " , target);
+
+// Crack and self-hack the target server.
+const ramPerThread = ns.getScriptRam("basic-hack.js");
+await ns.scp("basic-hack.js" , target);
+ns.nuke(target);
+let ramAvailable = ns.getServerMaxRam(target);
+let threads = Math.floor(ramAvailable / ramPerThread);
+ns.exec("basic-hack.js" , target , threads, target);
+
+// Remove the target server from the array of servers found.
+for (let j = 0; j < serversTotal.length; j++){ 
+    if (serversTotal[j] === target){ 
+        serversTotal.splice(j, 1);
+		j--; 
+    }
+}
+
+// Launch the hacking script against the target server in all the servers found, with as many threads as allowed by their RAM.
+for (let k in serversTotal){
+	await ns.scp("basic-hack.js" , serversTotal[k]);
+	ns.nuke(serversTotal[k]);
+	ramAvailable = ns.getServerMaxRam(serversTotal[k]);
+	threads = Math.floor(ramAvailable / ramPerThread);
+	ns.exec("basic-hack.js" , serversTotal[k] , threads, target);
+}
+
+}
