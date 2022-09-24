@@ -12,5 +12,5 @@ This script attempts to open as many ports as necessary and then nuke any target
 ### Basic hack
 This is the most simple script for hacking servers indefinitely. The script will check before any hacking attempt if the requisites for maximum security and minimum money are met, and run "weaken" and/or "grow" before launching further hacking attempts when necessary.
 
-### Deployer 0 (.script)
+### Deployer 0
 Very convenient after you install any augmentations, this script will nuke all servers with no ports to open and put them to work hacking the server with the most money among them. Just go to the university to rise your hacking level to 40 and then run this script. The <b>"basic-hack"</b> script is necessary for this to run properly.
