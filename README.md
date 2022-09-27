@@ -13,7 +13,7 @@ This script attempts to open as many ports as necessary and then nuke any target
 This is the most simple script for hacking servers indefinitely. The script will check before any hacking attempt if the requisites for maximum security and minimum money are met, and run "weaken" and/or "grow" before launching further hacking attempts when necessary.
 
 ### Split hack
-This is a managing script for hacking. Instead of executing the weaken / grow / hack cycle itself, it runs as many threads as possible of one-shot scripts which require less RAM than every thread of the basic-hack script (1.75 Gb instead of 2,4 Gb). This allows more threads attacking the target when the executing server has 32 Gb or more RAM. The one-shot scripts only require one line of code (i.e. await ns.weaken(ns.args[0]);).
+Instead of executing the weaken / grow / hack cycle itself, this script runs as many threads as possible of one-shot scripts which require less RAM than every thread of the basic-hack script (1.75 Gb instead of 2,4 Gb). This allows more threads attacking the target when the executing server has 32 Gb or more RAM. The one-shot scripts only require one line of code (i.e. await ns.weaken(ns.args[0]);) and will be copied automatically from your home server to the executing server.
 
 ### Deployer 0
 Very convenient after you install any augmentations, this script will nuke all servers with no ports to open and put them to work hacking the server with the most money among them. Just go to the university to rise your hacking level to 40 and then run this script. The <b>"basic-hack"</b> script is necessary for this to run properly.
