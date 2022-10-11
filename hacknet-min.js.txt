@@ -26,12 +26,12 @@ function MinUpgradeType(node) {
 }
 
 // Loop to purchase upgrades or new nodes at the cheapest cost, up to the indicated maximum number of nodes to purchase.
-var Nodes = 0;
-var AllMinCosts = [];
-var Money = 0;
-var NodeCost = 0;
-var NodeId = 0;
-var Type = 0;
+let Nodes = 0;
+let AllMinCosts = [];
+let Money = 0;
+let NodeCost = 0;
+let NodeId = 0;
+let Type = 0;
 while (true) {
 	Nodes = (ns.hacknet.numNodes());
 	if (Nodes === MaxNodes) {
