@@ -4,7 +4,7 @@ export async function main(ns) {
 // TARGET SERVER MUST BE ENTERED AS AN ARGUMENT, i.e. "run split-hack. n00dles".
 const target = ns.args[0];
 
-// Hack will be attempted if current security in the server is less than 10 points above its maximum level.
+// Hack will be attempted if current security in the server is less than 8 points above its maximum level.
 const MaxSecurity = ns.getServerMinSecurityLevel(target) + 8;
 // Hack will be attempted if current money in the server is 70% of maximum money.
 const MinMoney = ns.getServerMaxMoney(target) * 0.7;
