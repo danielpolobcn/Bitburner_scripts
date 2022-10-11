@@ -1,0 +1,86 @@
+/** @param {NS} ns */
+export async function main(ns) {
+
+// ARGUMENTS TO PASS: 1) Maximum nodes to buy, 2) Delay before next attempted purchase, in seconds.
+// If no arguments are passed, the default values are 12 nodes and 10 seconds.
+const MaxNodes = ns.args[0] || 12; 
+const Delay = 1000 * ns.args[1] || 10000;
+ns.tprint("Maximum nodes to purchase: " , MaxNodes);
+ns.tprint("Delay before next purchase: " , Delay / 1000 , " seconds");
+
+// Functions to estimate and identify the cheapest upgrade for every current node.
+function MinUpgradeCost(node) {
+	let Costs = [];
+	Costs[0] = ns.hacknet.getLevelUpgradeCost(node);
+	Costs[1] = ns.hacknet.getRamUpgradeCost(node);
+	Costs[2] = ns.hacknet.getCoreUpgradeCost(node);
+	return Math.min.apply(null , Costs); 
+}
+
+function MinUpgradeType(node) {
+	let Costs = [];
+	Costs[0] = ns.hacknet.getLevelUpgradeCost(node);
+	Costs[1] = ns.hacknet.getRamUpgradeCost(node);
+	Costs[2] = ns.hacknet.getCoreUpgradeCost(node);
+	return Costs.indexOf(Math.min.apply(null , Costs)); 
+}
+
+// Loop to purchase upgrades or new nodes at the cheapest cost, up to the indicated maximum number of nodes to purchase.
+var Nodes = 0;
+var AllMinCosts = [];
+var Money = 0;
+var NodeCost = 0;
+var NodeId = 0;
+var Type = 0;
+while (true) {
+	Nodes = (ns.hacknet.numNodes());
+	if (Nodes === MaxNodes) {
+		break;
+	}
+	for (NodeId = 0 ; NodeId < Nodes ; NodeId++) {
+		AllMinCosts[NodeId] = MinUpgradeCost(NodeId);
+	}
+	Money = ns.getServerMoneyAvailable("home");
+	NodeCost = ns.hacknet.getPurchaseNodeCost();
+	if (Math.min.apply(null , AllMinCosts) >= NodeCost && NodeCost < (Money / 10)) {
+		ns.hacknet.purchaseNode();
+	}
+	if (Math.min.apply(null , AllMinCosts) < NodeCost && Math.min.apply(null , AllMinCosts) < (Money / 10)) {
+		NodeId = AllMinCosts.indexOf(Math.min.apply(null , AllMinCosts));
+		Type = MinUpgradeType(NodeId);
+		if (Type == 0) {
+			ns.hacknet.upgradeLevel(NodeId , 1);
+		}
+		if (Type == 1) {
+			ns.hacknet.upgradeRam(NodeId , 1);
+		}
+		if (Type == 2) {
+			ns.hacknet.upgradeCore(NodeId , 1);
+		}
+	}
+	await ns.sleep(Delay);
+}
+
+// The former loop is repeated, with the option to buy new nodes removed, to finish upgrading all the current nodes.
+while (true) {
+	for (NodeId = 0 ; NodeId < Nodes ; NodeId++) {
+		AllMinCosts[NodeId] = MinUpgradeCost(NodeId);
+	}
+	Money = ns.getServerMoneyAvailable("home");
+	if (Math.min.apply(null , AllMinCosts) < (Money / 10)) {
+		NodeId = AllMinCosts.indexOf(Math.min.apply(null , AllMinCosts));
+		Type = MinUpgradeType(NodeId);
+		if (Type == 0) {
+			ns.hacknet.upgradeLevel(NodeId , 1);
+		}
+		if (Type == 1) {
+			ns.hacknet.upgradeRam(NodeId , 1);
+		}
+		if (Type == 2) {
+			ns.hacknet.upgradeCore(NodeId , 1);
+		}
+	}
+	await ns.sleep(Delay);
+}
+
+}
