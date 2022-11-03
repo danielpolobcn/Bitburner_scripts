@@ -1,0 +1,166 @@
+/** @param {NS} ns */
+export async function main(ns) {
+
+// TARGET SERVER MUST BE ENTERED AS AN ARGUMENT, i.e. "run split-hack. n00dles".
+const target = ns.args[0];
+
+// ADDITIONAL ARGUMENTS: 1) Percentage of target's max money to be siphoned, 2) Number of cores on executing server.
+const hackPercent = ns.args[1] / 100 || 0.3;
+const argCores = ns.args[2];
+const executor = ns.getHostname();
+let MaxRAM = ns.getServerMaxRam(executor);
+
+// Set a default value of 1 for cores, in case no argument is passed for the number of cores.
+let cores = 1;
+switch(argCores) {
+	case 2:
+	case 3:
+	case 4:
+	case 5:
+	case 6:
+	case 7:
+	case 8:
+		cores = argCores;
+		break;
+}
+
+// Copy needed files to the executing server.
+const files = ["weakener.js", "grower.js", "hacker.js"];
+await ns.scp(files, executor, "home");
+
+// First full reduction of target's Security, before the infinite loop.
+let SecurityNeed = ns.getServerSecurityLevel(target) - ns.getServerMinSecurityLevel(target);
+let SecurityTime = ns.getWeakenTime(target);
+let WeakenThreads = SecurityNeed / 0.05;
+let MaxThreads = Math.floor((MaxRAM - ns.getServerUsedRam(executor)) / 1.75);
+let RoundsNeeded = Math.ceil(WeakenThreads / MaxThreads);
+let RoundsDone = 0;
+if (WeakenThreads > 0) {
+	while (MaxThreads < 1) {
+		await ns.sleep(10000);
+		MaxThreads = Math.floor((MaxRAM - ns.getServerUsedRam(executor)) / 1.75);
+	}
+	if (WeakenThreads > MaxThreads) {
+		while (RoundsDone < RoundsNeeded) {
+			MaxThreads = Math.floor((MaxRAM - ns.getServerUsedRam(executor)) / 1.75);
+			SecurityTime = ns.getWeakenTime(target);
+			ns.exec ("weakener.js" , executor , MaxThreads , target);
+			RoundsDone++;
+			await ns.sleep(SecurityTime + 2000)
+		}
+	}
+	else {
+	ns.exec ("weakener.js" , executor , WeakenThreads , target);
+	await ns.sleep(SecurityTime + 1000);
+	}
+}
+
+// First maximization of target's money, before the infinite loop.
+let Money = ns.getServerMoneyAvailable(target);
+let GrowNeed = ns.getServerMaxMoney(target) - Money;
+let GrowThreads = Math.ceil(ns.growthAnalyze (target, 1 + (GrowNeed / Money) , cores));
+let GrowTime = ns.getGrowTime(target);
+MaxThreads = Math.floor((MaxRAM - ns.getServerUsedRam(executor)) / 1.75);
+if (GrowThreads > 0) {
+	while (MaxThreads < 1) {
+		await ns.sleep(10000);
+		MaxThreads = Math.floor((MaxRAM - ns.getServerUsedRam(executor)) / 1.75);
+	}
+	if (GrowThreads > MaxThreads) {
+		RoundsNeeded = Math.ceil(GrowThreads / MaxThreads);
+		RoundsDone = 0;
+		while (RoundsDone < RoundsNeeded) {
+			MaxThreads = Math.floor((MaxRAM - ns.getServerUsedRam(executor)) / 1.75);
+			GrowTime = ns.getGrowTime(target);
+			ns.exec ("grower.js" , executor , MaxThreads , target);
+			RoundsDone++;
+			await ns.sleep(GrowTime + 2000)
+		}
+	}
+	else {
+	ns.exec ("grower.js" , executor , GrowThreads , target);
+	await ns.sleep(GrowTime + 1000);
+	}
+}
+
+// Final full reduction of Security, before the infinite loop.
+SecurityNeed = ns.getServerSecurityLevel(target) - ns.getServerMinSecurityLevel(target);
+SecurityTime = ns.getWeakenTime(target);
+WeakenThreads = SecurityNeed / 0.05;
+MaxThreads = Math.floor((MaxRAM - ns.getServerUsedRam(executor)) / 1.75);
+RoundsNeeded = Math.ceil(WeakenThreads / MaxThreads);
+RoundsDone = 0;
+if (WeakenThreads > 0) {
+	while (MaxThreads < 1) {
+		await ns.sleep(10000);
+		MaxThreads = Math.floor((MaxRAM - ns.getServerUsedRam(executor)) / 1.75);
+	}
+	if (WeakenThreads > MaxThreads) {
+		while (RoundsDone < RoundsNeeded) {
+			MaxThreads = Math.floor((MaxRAM - ns.getServerUsedRam(executor)) / 1.75);
+			SecurityTime = ns.getWeakenTime(target);
+			ns.exec ("weakener.js" , executor , MaxThreads , target);
+			RoundsDone++;
+			await ns.sleep(SecurityTime + 2000)
+		}
+	}
+	else {
+	ns.exec ("weakener.js" , executor , WeakenThreads , target);
+	await ns.sleep(SecurityTime + 1000);
+	}
+}
+
+// Infinite loop: 1) Hack, 2) Grow + Weaken.
+let GrowSecurity = 0;
+let HackPerThread = 0;
+let HackThreads = 0;
+let HackSecurity = 0;
+let HackTime = 0;
+let ratioGrow = 1;
+let ratioWeaken = 1;
+while (true) {
+	HackPerThread = ns.hackAnalyze(target);
+	HackThreads = Math.ceil(hackPercent / HackPerThread);
+	HackSecurity = ns.hackAnalyzeSecurity(HackThreads, target);
+	MaxRAM = ns.getServerMaxRam(executor);
+	MaxThreads = Math.floor((MaxRAM - ns.getServerUsedRam(executor)) / 1.75);
+	while (HackThreads > MaxThreads) {
+		HackTime = ns.getHackTime(target);
+		ns.exec("hacker.js" , executor , MaxThreads , target);
+		HackThreads -= MaxThreads;
+		await ns.sleep(HackTime + 1000);
+	}
+	HackTime = ns.getHackTime(target);
+	ns.exec("hacker.js" , executor , HackThreads , target);
+	await ns.sleep(HackTime + 1000);
+	Money = ns.getServerMoneyAvailable(target);
+	GrowNeed = ns.getServerMaxMoney(target) - Money;
+	GrowThreads = Math.ceil(ns.growthAnalyze(target , 1 + (GrowNeed / Money) , cores));
+	GrowSecurity = ns.growthAnalyzeSecurity(GrowThreads , target , cores);
+	WeakenThreads = Math.ceil((HackSecurity + GrowSecurity) / 0.05);
+	MaxThreads = Math.floor((MaxRAM - ns.getServerUsedRam(executor)) / 1.75);
+	// GrowThreads will read 0 if the former hacking attempt failed, so the next grow attack must be skipped. 
+	while ((GrowThreads + WeakenThreads) > MaxThreads && GrowThreads != 0) { // Check for GrowThreads != 0.
+		SecurityTime = ns.getWeakenTime(target);
+		ratioGrow = GrowThreads / (GrowThreads + WeakenThreads);
+		ratioWeaken = WeakenThreads / (GrowThreads + WeakenThreads);
+		ns.exec("grower.js" , executor , Math.floor(MaxThreads * ratioGrow) , target);
+		ns.exec ("weakener.js" , executor , Math.floor(MaxThreads * ratioWeaken) , target);
+		GrowThreads -= Math.floor(MaxThreads * ratioGrow);
+		WeakenThreads -= Math.floor(MaxThreads * ratioWeaken);
+		await ns.sleep(SecurityTime + 1000);		
+	}
+	SecurityTime = ns.getWeakenTime(target);
+	if (GrowThreads == 0) { // Check for GrowThreads == 0, if true Weaken must only compensate for the former failed hacking attack.
+		WeakenThreads = Math.ceil(HackSecurity / 0.05);
+		ns.exec ("weakener.js" , executor , WeakenThreads , target);
+		await ns.sleep(SecurityTime + 1000);
+	}
+	else {
+		ns.exec("grower.js" , executor , GrowThreads , target);
+		ns.exec ("weakener.js" , executor , WeakenThreads , target);
+		await ns.sleep(SecurityTime + 1000);
+	}
+}
+
+}
