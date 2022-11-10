@@ -1,7 +1,7 @@
 /** @param {NS} ns */
 export async function main(ns) {
 
-// TARGET SERVER MUST BE ENTERED AS AN ARGUMENT, i.e. "run split-hack. n00dles".
+// TARGET SERVER MUST BE ENTERED AS AN ARGUMENT, i.e. "run manager.js n00dles".
 const target = ns.args[0];
 
 // ADDITIONAL ARGUMENTS: 1) Percentage of target's max money to be siphoned, 2) Number of cores on executing server.
