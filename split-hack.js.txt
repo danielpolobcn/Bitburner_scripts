@@ -1,7 +1,7 @@
 /** @param {NS} ns */
 export async function main(ns) {
 
-// TARGET SERVER MUST BE ENTERED AS AN ARGUMENT, i.e. "run split-hack. n00dles".
+// TARGET SERVER MUST BE ENTERED AS AN ARGUMENT, i.e. "run split-hack.js n00dles".
 const target = ns.args[0];
 
 // Hack will be attempted if current security in the server is less than 8 points above its maximum level.
