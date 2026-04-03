@@ -45,6 +45,12 @@ export async function main(ns) {
   }
   ns.tprint("New servers to be cracked: ", NewCrackedServers);
 
+  // Crack through all the new available servers
+  for (let j in NewCrackedServers) {
+    ns.exec("cracker.js", "home", 1, NewCrackedServers[j])
+    await ns.sleep(1000);
+  }
+
   // If the attack method is set to "best", determine which of the new cracked servers has the most money.
   let MaxMoney
   let BestServer
@@ -61,9 +67,7 @@ export async function main(ns) {
   // Put the new available servers to hack the chosen target.
   const RamPerThread = ns.getScriptRam("basic-hack.js");
   let threads = 1;
-  await ns.sleep(1000);
   for (let k in NewCrackedServers) {
-    ns.exec("cracker.js", "home", 1, NewCrackedServers[k])
     if (ns.getServerMaxRam(NewCrackedServers[k]) == 0) {
       ns.tprint(NewCrackedServers[k], " has no RAM");
       await ns.sleep(100);
