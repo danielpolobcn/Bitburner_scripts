@@ -4,25 +4,11 @@ export async function main(ns) {
 // TARGET SERVER MUST BE ENTERED AS AN ARGUMENT, i.e. "run manager.js n00dles".
 const target = ns.args[0];
 
-// ADDITIONAL ARGUMENTS: 1) Percentage of target's max money to be siphoned, 2) Number of cores on executing server.
+// ADDITIONAL ARGUMENTS: 1) Percentage of target's max money to be siphoned.
 const hackPercent = ns.args[1] / 100 || 0.3;
-const argCores = ns.args[2];
+let cores = ns.getServer()["cpuCores"];
 const executor = ns.getHostname();
 let MaxRAM;
-
-// Set a default value of 1 for cores, in case no argument is passed for the number of cores.
-let cores = 1;
-switch(argCores) {
-	case 2:
-	case 3:
-	case 4:
-	case 5:
-	case 6:
-	case 7:
-	case 8:
-		cores = argCores;
-		break;
-}
 
 // Copy needed files to the executing server.
 const files = ["weakener.js", "grower.js", "hacker.js"];
@@ -124,8 +110,10 @@ let HackSecurity = 0;
 let HackTime = 0;
 let ratioGrow = 1;
 let ratioWeaken = 1;
+
 while (true) {
-	HackPerThread = ns.hackAnalyze(target);
+	cores = ns.getServer()["cpuCores"];
+  HackPerThread = ns.hackAnalyze(target);
 	HackThreads = Math.ceil(hackPercent / HackPerThread);
 	HackSecurity = ns.hackAnalyzeSecurity(HackThreads, target);
 	MaxRAM = ns.getServerMaxRam(executor);
