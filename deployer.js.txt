@@ -1,4 +1,3 @@
-/** @param {NS} ns */
 export async function main(ns) {
 
   // ARGUMENTS TO PASS: 1) Method to determine target of attacks: "self" or "best".
@@ -45,6 +44,14 @@ export async function main(ns) {
   }
   ns.tprint("New servers to be cracked: ", NewCrackedServers);
 
+  // Verify that the passed target server is in the list of accessible servers i.e. no misspellings
+  if (TargetChoice != "best" && TargetChoice != "self") {
+    if (!Servers.includes(TargetChoice)) {
+      ns.tprint(TargetChoice, " is not a valid server name");
+      return;
+    }
+  }
+
   // Crack through all the new available servers
   for (let j in NewCrackedServers) {
     ns.exec("cracker.js", "home", 1, NewCrackedServers[j])
@@ -87,6 +94,10 @@ export async function main(ns) {
           ns.tprint(NewCrackedServers[k], " needs a different target to be assigned for hacking");
         }
       }
+      else {
+        ns.exec("split-hack.js", NewCrackedServers[k], 1, TargetChoice);
+        ns.tprint(NewCrackedServers[k], " is hacking ", TargetChoice);
+      }
       await ns.sleep(100);
     }
     else {
@@ -104,6 +115,10 @@ export async function main(ns) {
         else {
           ns.tprint(NewCrackedServers[k], " needs a different target to be assigned for hacking");
         }
+      }
+      else {
+        ns.exec("basic-hack.js", NewCrackedServers[k], threads, TargetChoice);
+        ns.tprint(NewCrackedServers[k], " is hacking ", TargetChoice);
       }
       await ns.sleep(100);
     }
